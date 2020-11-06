@@ -219,19 +219,28 @@ describe("FSM", function ()
         end)
 
         it("current state was nil", function ()
-            assert.has_error(function () fsm:change_state(state_1) end, "FSM:change_state() current_state was nil")
+            assert.has_error(
+                function () fsm:change_state(state_1) end,
+                "FSM:change_state() current_state was nil"
+            )
         end)
 
         it("change to nil state", function ()
             fsm:set_current_state(state_1)
 
-            assert.has_error(function () fsm:change_state(nil) end, "FSM:change_state() trying to change to invalid state")
+            assert.has_error(
+                function () fsm:change_state(nil) end, 
+                "FSM:change_state() trying to change to invalid state"
+            )
         end)
 
         it("change to invalid state", function ()
             fsm:set_current_state(state_1)
 
-            assert.has_error(function () fsm:change_state({enter = function () end}) end, "FSM:change_state() trying to change to invalid state")
+            assert.has_error(
+                function () fsm:change_state({enter = function () end}) end,
+                "FSM:change_state() trying to change to invalid state"
+            )
         end)
 
         after_each(function ()
@@ -276,7 +285,10 @@ describe("FSM", function ()
         it("previous state was nil", function ()
             fsm:set_current_state(state_1)
 
-            assert.has_error(function () fsm:revent_to_previous_state() end, "FSM:change_state() trying to change to invalid state")
+            assert.has_error(
+                function () fsm:revent_to_previous_state() end,
+                "FSM:change_state() trying to change to invalid state"
+            )
         end)
 
         after_each(function ()
