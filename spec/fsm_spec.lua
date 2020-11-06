@@ -229,7 +229,7 @@ describe("FSM", function ()
             fsm:set_current_state(state_1)
 
             assert.has_error(
-                function () fsm:change_state(nil) end, 
+                function () fsm:change_state(nil) end,
                 "FSM:change_state() trying to change to invalid state"
             )
         end)
