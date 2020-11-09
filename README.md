@@ -18,28 +18,76 @@ Finita uses the state class. Each state can be declared in separate file like th
 local MyMegaState = {}
 
 function MyMegaState:new()
-	local obj = {}
-	setmetatable(obj, self)
-	self.__index = self
-	return obj
+  local obj = {}
+  setmetatable(obj, self)
+  self.__index = self
+  return obj
 end
 
 -- this method execute when the state is entered
 function MyMegaState:enter(owner)
+  -- do staff...
 end
 
 -- this is called by the FSM's update function each update step
 function MyMegaState:execute(owner, ...)
+  -- do staff...
 end
 
 -- this will execute when the state is exited
 function MyMegaState:exit(owner)
+  -- do staff...
 end
 
 return MyMegaState
 ```
 
 Finita automatically checks that the ```state``` implements required methods. If state failed verification, FSM raise ```incorrect state declaration``` error
+
+## Example
+
+```lua
+local FSM = require "fsm"
+
+local MenuState = require "menu_state"
+local GameplayState = require "game_state"
+
+
+local Game = {}
+
+function Game:new()
+  -- create instance of FSM class and pass Game as FSM owner
+  self.fsm = FSM(self)
+
+  -- owner stores links to all states
+  self.states = {
+	menu = MenuState:new(),
+	gameplay = GameplayState:new()
+  }
+
+  -- set current state
+  self.fsm:set_current_state(self.states.menu)
+
+  local obj = {}
+  setmetatable(obj, self)
+  self.__index = self
+  return obj
+end
+
+function Game:update(dt)
+  -- update fsm and pass extra paremeter 'dt' to current_state execute method
+  self.fsm:update(dt)
+end
+
+function Game:handle_input(key)
+  if key == "Enter" then
+    -- change current state
+	self.fsm:change_state(self.states.gameplay)
+  end
+end
+
+return Game
+```
 
 ## Documentation
 
@@ -87,7 +135,7 @@ call this method to update FSM. You can pass variable numbers of arguments to ``
 method executes the following sequence:
 * call the ```exit``` method of the existing state
 * change current state to the new state
-* call the ```entry``` method of the new state
+* call the ```enter`` method of the new state
 
 This method can raise two errors:
 * ```current_state was nil``` if current sate not passed in FSM
