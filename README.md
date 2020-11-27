@@ -82,7 +82,7 @@ end
 function Game:handle_input(key)
   if key == "Enter" then
     -- change current state
-	self.fsm:change_state(self.states.gameplay)
+    self.fsm:change_state(self.states.gameplay)
   end
 end
 
