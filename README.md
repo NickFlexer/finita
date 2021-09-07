@@ -135,7 +135,7 @@ call this method to update FSM. You can pass variable numbers of arguments to ``
 method executes the following sequence:
 * call the ```exit``` method of the existing state
 * change current state to the new state
-* call the ```enter`` method of the new state
+* call the ```enter``` method of the new state
 
 This method can raise two errors:
 * ```current_state was nil``` if current sate not passed in FSM
