@@ -7,12 +7,15 @@ describe("FSM", function ()
     local FSM = require "fsm"
 
     describe("initialize", function ()
-        it("call 'new' method", function ()
-            local owner = {}
-            local fsm = FSM:new(owner)
+        it("multiple instances", function ()
+            local owner1 = "a"
+            local fsm1 = FSM(owner1)
 
-            assert.is.Table(fsm)
-            assert.are.equal(fsm._DESCRIPTION, "Finite State Machine implementation for Lua")
+            local owner2 = "b"
+            local fsm2 = FSM(owner2)
+
+            assert.are.equal(fsm1.owner, "a")
+            assert.are.equal(fsm2.owner, "b")
         end)
 
         it("call table", function ()
@@ -20,11 +23,10 @@ describe("FSM", function ()
             local fsm = FSM(owner)
 
             assert.is.Table(fsm)
-            assert.are.equal(fsm._DESCRIPTION, "Finite State Machine implementation for Lua")
         end)
 
         it("without owner", function ()
-            assert.has_error(function () FSM() end, "FSM:set_owner() try to set nil owner")
+            assert.has_error(function () FSM() end, "FSM() try to set nil owner")
         end)
     end)
 

@@ -2,10 +2,9 @@
 -- fsm.lua
 
 
-local FSM = {
-    _DESCRIPTION = "Finite State Machine implementation for Lua"
-}
-local FSM_mt = {__index = FSM}
+local FSM = {}
+
+FSM.__index = FSM
 
 local function check_state(state)
     if type(state) == "table" then
@@ -20,13 +19,20 @@ local function check_state(state)
     return false
 end
 
-function FSM:new(owner)
-    self:set_owner(owner)
-    self.current_state = nil
-    self.previous_state = nil
-    self.global_state = nil
+local function new(owner)
+    if not owner then
+        error("FSM() try to set nil owner")
+    end
 
-    return setmetatable({}, FSM_mt)
+    return setmetatable(
+        {
+            owner = owner,
+            current_state = nil,
+            previous_state = nil,
+            global_state = nil
+        },
+        FSM
+    )
 end
 
 function FSM:set_owner(owner)
@@ -97,4 +103,17 @@ function FSM:is_in_state(state)
     return self.current_state == state
 end
 
-return setmetatable(FSM, {__call = FSM.new})
+function FSM:get_current_state()
+    return self.current_state
+end
+
+return setmetatable(
+    {
+        new = new,
+        _DESCRIPTION = "Finite State Machine implementation for Lua",
+        _VERSION = "v1.1"
+    },
+    {
+        __call = function(_, ...) return new(...) end
+    }
+)

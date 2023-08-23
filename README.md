@@ -99,12 +99,6 @@ create new FSM object:
 local  fsm = FSM(owner)
 ```
 
-or
-
-```lua
-local  fsm = FSM:new(owner)
-```
-
 ---
 
 **```:set_owner(owner)```**
